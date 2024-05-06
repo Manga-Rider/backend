@@ -1,0 +1,54 @@
+package com.mangarider.model.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Builder
+
+@Entity
+@Table(name = "t_mangas")
+public class Manga {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID mangaId;
+
+    @ManyToOne
+    private User author;
+
+    private String title;
+
+    private String description;
+
+    private LocalDateTime publishedAt;
+
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Builder.Default
+    public Status status = Status.DRAFT;
+
+    @Builder.Default
+    private long views = 0L;
+
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "image_id")
+    private List<Image> images = new ArrayList<>();
+
+    public enum Status {
+        PUBLISHED,
+        DRAFT,
+        ON_GOING,
+        REMOVED // by admin
+    }
+}
