@@ -21,7 +21,7 @@ import java.util.UUID;
 @Table(name = "t_user_credentials")
 public class UserCredentials implements UserDetails {
     @Id
-    private UUID credentialsId;
+    private UUID userId;
 
     @OneToOne(optional = false)
     @MapsId
@@ -32,8 +32,8 @@ public class UserCredentials implements UserDetails {
 
     private String password;
 
-
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "t_user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.ORDINAL)
     private List<UserRole> roles = new ArrayList<>();
 

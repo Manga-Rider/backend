@@ -13,6 +13,7 @@ import org.javatuples.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class AuthenticationService {
     private final PasswordEncoder encoder;
 
 
+    @Transactional
     public Pair<User, UserCredentials> registration(@NotNull String username, @NotNull String email, @NotNull String password) {
         if (userRepository.existsByUsername(username)) {
             throw new UserAlreadyExistsException("User with username = {%s} already exists".formatted(username));
@@ -42,8 +44,7 @@ public class AuthenticationService {
                 .credentials(credentials)
                 .username(username)
                 .build();
-        user.setCredentials(credentials);
-        credentials = credentialsRepository.save(credentials);
+        credentials.setUser(user);
         user = userRepository.save(user);
 
         return Pair.with(user, credentials);

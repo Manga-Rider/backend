@@ -42,7 +42,7 @@ public class JwtService {
     public String generateToken(String username, Collection<? extends GrantedAuthority> authorities, Map<String, ?> extraClaims) {
         ClaimsBuilder claimsBuilder = Jwts.claims()
                 .subject(username)
-                .issuer("spring.webflux.test")
+                .issuer("manga-rider")
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + securityProperties.tokenLiveTime()))
                 .add(extraClaims);

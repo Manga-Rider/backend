@@ -8,11 +8,13 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +24,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import javax.crypto.SecretKey;
 
 import static com.mangarider.model.entity.UserRole.ADMIN;
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
 
 @Configuration
 public class SecurityConfig {
@@ -31,10 +35,15 @@ public class SecurityConfig {
                                                    JwtAuthenticationFilter filter,
                                                    AuthenticationProvider provider) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(config -> {
+                    config.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                })
                 .authenticationProvider(provider)
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(config -> {
-                    config.anyRequest().hasRole(ADMIN.getAuthority());
+                    config.requestMatchers(POST, "/api/v1/users/registration").permitAll();
+                    config.requestMatchers(POST, "/api/v1/users/login").permitAll();
+                    config.anyRequest().hasRole(ADMIN.name());
                 });
         return http.build();
     }

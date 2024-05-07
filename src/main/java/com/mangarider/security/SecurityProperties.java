@@ -9,6 +9,7 @@ public record SecurityProperties (
         String basicPrefix,
         String roleKey,
         String secretKey,
+        String issuer,
         Long tokenLiveTime
 ) {
     @ConstructorBinding
