@@ -1,14 +1,12 @@
-package com.mangarider.config;
+package com.mangarider.security;
 
 import com.mangarider.exception.GlobalServiceException;
 import com.mangarider.repository.UserCredentialsRepository;
-import com.mangarider.security.JwtAuthenticationFilter;
-import com.mangarider.security.SecurityProperties;
+import com.mangarider.security.properties.SecurityProperties;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -24,7 +22,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import javax.crypto.SecretKey;
 
 import static com.mangarider.model.entity.UserRole.ADMIN;
-import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 
 @Configuration

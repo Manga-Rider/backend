@@ -3,6 +3,7 @@ package com.mangarider.model.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -18,6 +19,7 @@ import java.util.UUID;
 @Builder
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "t_user_credentials")
 public class UserCredentials implements UserDetails {
     @Id

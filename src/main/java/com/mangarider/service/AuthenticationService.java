@@ -2,6 +2,7 @@ package com.mangarider.service;
 
 import com.mangarider.exception.AuthenticationException;
 import com.mangarider.exception.UserAlreadyExistsException;
+import com.mangarider.model.dto.request.RegistrationDTO;
 import com.mangarider.model.entity.User;
 import com.mangarider.model.entity.UserCredentials;
 import com.mangarider.model.entity.UserRole;
@@ -29,20 +30,22 @@ public class AuthenticationService {
 
 
     @Transactional
-    public Pair<User, UserCredentials> registration(@NotNull String username, @NotNull String email, @NotNull String password) {
-        if (userRepository.existsByUsername(username)) {
-            throw new UserAlreadyExistsException("User with username = {%s} already exists".formatted(username));
-        } else if (credentialsRepository.existsByEmail(email)) {
-            throw new UserAlreadyExistsException("User with email = {%s} already exists".formatted(email));
+    public Pair<User, UserCredentials> registration(@NotNull RegistrationDTO dto) {
+        if (userRepository.existsByUsername(dto.username())) {
+            throw new UserAlreadyExistsException("User with username = {%s} already exists".formatted(dto.username()));
+        } else if (credentialsRepository.existsByEmail(dto.email())) {
+            throw new UserAlreadyExistsException("User with email = {%s} already exists".formatted(dto.email()));
         }
         UserCredentials credentials = UserCredentials.builder()
-                .email(email)
-                .password(encoder.encode(password))
+                .email(dto.email())
+                .password(encoder.encode(dto.password()))
                 .roles(List.of(UserRole.USER))
                 .build();
         User user = User.builder()
                 .credentials(credentials)
-                .username(username)
+                .username(dto.username())
+                .birthday(dto.birthday())
+                .location(dto.location())
                 .build();
         credentials.setUser(user);
         user = userRepository.save(user);

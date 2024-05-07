@@ -1,7 +1,7 @@
 package com.mangarider.controller;
 
 import com.mangarider.model.dto.request.LoginRequestDTO;
-import com.mangarider.model.dto.request.RegistrationRequestDTO;
+import com.mangarider.model.dto.request.RegistrationDTO;
 import com.mangarider.model.dto.response.TokenDTO;
 import com.mangarider.service.AuthenticationService;
 import jakarta.validation.Valid;
@@ -23,8 +23,8 @@ public class AuthenticationController {
     private final AuthenticationService authService;
 
     @PostMapping("/registration")
-    public ResponseEntity<?> create(@RequestBody @Valid RegistrationRequestDTO request) {
-        authService.registration(request.username(), request.email(), request.password());
+    public ResponseEntity<?> create(@RequestBody @Valid RegistrationDTO request) {
+        authService.registration(request);
         return ResponseEntity.status(CREATED).build();
     }
 

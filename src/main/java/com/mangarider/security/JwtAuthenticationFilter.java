@@ -1,6 +1,7 @@
 package com.mangarider.security;
 
 import com.mangarider.exception.GlobalServiceException;
+import com.mangarider.security.properties.SecurityProperties;
 import com.mangarider.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

@@ -3,6 +3,7 @@ package com.mangarider.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import java.util.UUID;
 @Builder
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "t_mangas")
 public class Manga {
     @Id

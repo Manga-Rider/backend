@@ -1,4 +1,4 @@
-package com.mangarider.security;
+package com.mangarider.security.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.bind.ConstructorBinding;

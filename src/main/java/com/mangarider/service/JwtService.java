@@ -1,6 +1,6 @@
 package com.mangarider.service;
 
-import com.mangarider.security.SecurityProperties;
+import com.mangarider.security.properties.SecurityProperties;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
