@@ -14,15 +14,15 @@ import java.util.UUID;
 @Builder
 
 @Entity
-@Table(name = "t_chapter_comments")
-public class ChapterComment {
+@Table(name = "t_manga_comments")
+public class MangaComment {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID commentId;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "chapter_id", nullable = false)
-    private Chapter chapter;
+    @ManyToOne
+    @JoinColumn(name = "manga_id")
+    private Manga manga;
 
     @ManyToOne
     @JoinColumn(name = "author_id")

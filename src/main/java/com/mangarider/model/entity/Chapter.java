@@ -22,6 +22,7 @@ public class Chapter {
     public UUID chapterId;
 
     @ManyToOne(optional = false)
+    @JoinColumn(name = "manga_id", nullable = false)
     public Manga manga;
 
     public String title;

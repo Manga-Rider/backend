@@ -21,9 +21,11 @@ import java.util.UUID;
 @Table(name = "t_user_credentials")
 public class UserCredentials implements UserDetails {
     @Id
+    @Column(name = "user_id", nullable = false)
     private UUID userId;
 
     @OneToOne(optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
     @MapsId
     private User user;
 

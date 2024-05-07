@@ -23,6 +23,7 @@ public class Manga {
     private UUID mangaId;
 
     @ManyToOne
+    @JoinColumn(name = "author_id")
     private User author;
 
     private String title;
