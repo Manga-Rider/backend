@@ -8,6 +8,7 @@
         <spring.boot.version>3.2.5</spring.boot.version>
         <jjwt.version>0.12.5</jjwt.version>
         <javatuples.version>1.2</javatuples.version>
+        <aws.sdk.version>1.12.715</aws.sdk.version>
     </properties>
 
     <parent>
@@ -47,6 +48,11 @@
             <groupId>org.javatuples</groupId>
             <artifactId>javatuples</artifactId>
             <version>${javatuples.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-s3</artifactId>
+            <version>${aws.sdk.version}</version>
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>

@@ -29,9 +29,9 @@ public class UserService {
         return userRepository.findById(userId);
     }
 
-    public Page<String> getUserImages(Pageable pageable) {
-        return
-    }
+//    public Page<String> getUserImages(Pageable pageable) {
+//        return
+//    }
 
     public Page<User> getUsers(Pageable pageable) {
         return userRepository.findAll(pageable);
