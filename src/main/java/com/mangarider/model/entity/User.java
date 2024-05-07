@@ -21,9 +21,12 @@ import java.util.UUID;
 @Table(name = "t_users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID userId;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false)
+    private UserCredentials credentials;
 
     @Column(name = "username", nullable = false, unique = true)
     private String username;
