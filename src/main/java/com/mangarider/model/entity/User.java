@@ -1,7 +1,6 @@
 package com.mangarider.model.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
