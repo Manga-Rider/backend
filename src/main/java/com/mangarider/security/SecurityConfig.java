@@ -32,6 +32,8 @@ public class SecurityConfig {
                                                    JwtAuthenticationFilter filter,
                                                    AuthenticationProvider provider) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
                 .sessionManagement(config -> {
                     config.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                 })
@@ -40,7 +42,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(config -> {
                     config.requestMatchers(POST, "/api/v1/users/registration").permitAll();
                     config.requestMatchers(POST, "/api/v1/users/login").permitAll();
-                    config.anyRequest().hasRole(ADMIN.name());
+                    config.requestMatchers("/api/v1/test/**").permitAll();
+                    config.anyRequest().permitAll();
                 });
         return http.build();
     }

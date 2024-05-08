@@ -1,13 +1,9 @@
 package com.mangarider.storage;
 
-import com.amazonaws.services.s3.AmazonS3;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import java.io.InputStream;
 
-@Service
-@RequiredArgsConstructor
-public class StorageService {
-    private final AmazonS3 s3Client;
-
-
+public interface StorageService {
+    void uploadFile(String key, InputStream inputStream);
+    void deleteFile(String key);
+    String getPublicUrl(String key);
 }

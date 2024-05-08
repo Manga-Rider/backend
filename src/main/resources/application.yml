@@ -11,6 +11,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
 security:
   basic-prefix: 'Basic '
@@ -28,3 +31,13 @@ aws:
   s3:
     bucket: ${AWS_BUCKET}
     region: ${AWS_REGION}
+
+image:
+  supported-mime-types:
+    - "image/gif"
+    - "image/png"
+    - "image/jpeg"
+  user-folder: 'USER/%s/PROFILE/%s'
+  #                 userId      file
+  manga-folder: 'USER/%s/MANGA/%s/%s'
+  #                 userId   mangaID file

@@ -20,4 +20,7 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "image_id")
     private UUID imageId;
+
+    @Column(name = "s3_key")
+    private String s3Key;
 }

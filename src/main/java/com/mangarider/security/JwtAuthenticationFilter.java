@@ -3,6 +3,7 @@ package com.mangarider.security;
 import com.mangarider.exception.GlobalServiceException;
 import com.mangarider.security.properties.SecurityProperties;
 import com.mangarider.service.JwtService;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -50,7 +52,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         setAuthenticationToken(request, user);
                     }
                 }
-            } catch (GlobalServiceException e) {
+            } catch (ExpiredJwtException | GlobalServiceException e) {
                 log.debug("Auth error: " + e.getMessage());
             }
         }

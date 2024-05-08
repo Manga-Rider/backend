@@ -42,7 +42,7 @@ public class User {
     @Column(name = "location")
     private String location;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "image_id")
     private List<Image> images = new ArrayList<>();
 
