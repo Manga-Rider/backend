@@ -29,8 +29,9 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
     private UserCredentials credentials;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private UserImage image;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_image_id", referencedColumnName = "image_id")
+    private Image image;
 
     @Column(name = "username", nullable = false, unique = true)
     private String username;

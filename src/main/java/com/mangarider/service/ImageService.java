@@ -1,7 +1,7 @@
 package com.mangarider.service;
 
 import com.mangarider.exception.InvalidFileException;
-import com.mangarider.model.entity.UserImage;
+import com.mangarider.model.entity.Image;
 import com.mangarider.model.entity.User;
 import com.mangarider.repository.ImageRepository;
 import com.mangarider.repository.UserRepository;
@@ -39,14 +39,14 @@ public class ImageService {
             service.deleteFile(user.getImage().getS3Key());
             user.getImage().setS3Key(key);
         } else {
-            UserImage image = UserImage.builder()
-                    .user(user)
+            Image image = Image.builder()
                     .s3Key(key)
                     .build();
             image = imageRepository.save(image);
             user.setImage(image);
+            userRepository.save(user);
         }
-        UserImage image = user.getImage();
+        Image image = user.getImage();
         try {
             service.uploadFile(key, file.getInputStream());
         } catch (Exception e) {
@@ -56,7 +56,7 @@ public class ImageService {
         return Pair.with(image.getImageId(), image.getS3Key());
     }
 
-    public String getUrl(UserImage image) {
+    public String getUrl(Image image) {
         if (image == null) {
             return null;
         }

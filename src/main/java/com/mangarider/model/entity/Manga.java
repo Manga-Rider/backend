@@ -44,17 +44,16 @@ public class Manga {
     @Builder.Default
     private long views = 0L;
 
-    @OneToMany(mappedBy = "manga", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MangaImage> images = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "manga_id")
+    private List<Image> images = new ArrayList<>();
 
-    public void addImage(MangaImage image) {
+    public void addImage(Image image) {
         images.add(image);
-        image.setManga(this);
     }
 
-    public void removeComment(MangaImage image) {
+    public void removeImage(Image image) {
         images.remove(image);
-        image.setManga(null);
     }
 
     public enum Status {
