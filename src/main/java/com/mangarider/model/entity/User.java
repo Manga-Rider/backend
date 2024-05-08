@@ -29,9 +29,8 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
     private UserCredentials credentials;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "image_id", unique = true)
-    private Image image;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private UserImage image;
 
     @Column(name = "username", nullable = false, unique = true)
     private String username;
@@ -41,10 +40,6 @@ public class User {
 
     @Column(name = "location")
     private String location;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "image_id")
-    private List<Image> images = new ArrayList<>();
 
     private long views;
 

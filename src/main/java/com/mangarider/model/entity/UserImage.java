@@ -14,8 +14,8 @@ import java.util.UUID;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "t_images")
-public class Image {
+@Table(name = "t_user_images")
+public class UserImage {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "image_id")
@@ -23,4 +23,8 @@ public class Image {
 
     @Column(name = "s3_key")
     private String s3Key;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 }

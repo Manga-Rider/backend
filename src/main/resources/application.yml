@@ -10,7 +10,7 @@ spring:
     password: ${DB_PASSWORD:password}
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -41,3 +41,4 @@ image:
   #                 userId      file
   manga-folder: 'USER/%s/MANGA/%s/%s'
   #                 userId   mangaID file
+  regex: ([0-9]|[A-Z]|[a-z]|[!\-_.*'\(\)])+

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class MangaMapper {
 
-    public UserDTO toDTO(User user) {
+    public UserDTO toDTO(User user, String image) {
         if (user == null) {
             return null;
         }
@@ -17,7 +17,7 @@ public class MangaMapper {
         return UserDTO.builder()
                 .userId(user.getUserId())
                 .username(user.getUsername())
-                .image(null) // WHERE IS S3 BUCKET, VITYA @#!#$!@
+                .image(image)
                 .birthday(user.getBirthday())
                 .views(user.getViews())
                 .location(user.getLocation())

@@ -44,9 +44,18 @@ public class Manga {
     @Builder.Default
     private long views = 0L;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "image_id")
-    private List<Image> images = new ArrayList<>();
+    @OneToMany(mappedBy = "manga", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MangaImage> images = new ArrayList<>();
+
+    public void addImage(MangaImage image) {
+        images.add(image);
+        image.setManga(this);
+    }
+
+    public void removeComment(MangaImage image) {
+        images.remove(image);
+        image.setManga(null);
+    }
 
     public enum Status {
         PUBLISHED,

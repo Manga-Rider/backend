@@ -11,7 +11,8 @@ import java.util.List;
 public record ImageProperties(
         List<String> supportedMimeTypes,
         String userFolder,
-        String mangaFolder
+        String mangaFolder,
+        String regex
 ) {
     public ImageProperties {
 

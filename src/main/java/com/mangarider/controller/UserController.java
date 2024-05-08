@@ -1,7 +1,5 @@
 package com.mangarider.controller;
 
-import com.mangarider.mapper.MangaMapper;
-import com.mangarider.model.dto.ImageDTO;
 import com.mangarider.model.dto.UserDTO;
 import com.mangarider.model.entity.UserCredentials;
 import com.mangarider.service.ImageService;
@@ -28,13 +26,12 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 public class UserController {
-    private final MangaMapper mapper;
     private final UserService userService;
     private final ImageService imageService;
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserDTO> getUser(@PathVariable("userId") UUID userId) {
-        return ResponseEntity.of(userService.findUser(userId).map(mapper::toDTO));
+        return ResponseEntity.of(userService.findUser(userId));
     }
 
     @PostMapping(path = "/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -43,12 +40,11 @@ public class UserController {
         if (user == null) {
             return ResponseEntity.status(UNAUTHORIZED).build();
         }
-        return ResponseEntity.ok(imageService.addUserImage(user.getUser(), file));
+        return ResponseEntity.ok(imageService.setUserImage(user.getUser(), file));
     }
 
-    @GetMapping("/{userId}/images")
-    private ResponseEntity<Page<ImageDTO>> getUserImages(
-            @PathVariable("userId") UUID userId,
+    @GetMapping()
+    private ResponseEntity<Page<UserDTO>> getUsers(
             @RequestParam(value = "size", defaultValue = "20")
             @Min(1) @Max(1000) int size,
             @RequestParam(value = "num", defaultValue = "0")
@@ -63,7 +59,7 @@ public class UserController {
             @RequestParam(value = "properties", defaultValue = "createdAt")
             String[] properties) {
         return ResponseEntity.ok(
-                userService.getUserImages(userId, PageRequest.of(num, size, Sort.Direction.fromString(order), properties))
+                userService.getUsers(PageRequest.of(num, size, Sort.Direction.fromString(order), properties))
         );
     }
 }
