@@ -13,6 +13,10 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  mvc:
+    format:
+      date: dd-MM-yyyy
+      date-time: dd-MM-yyyy HH:mm:ss
 
 security:
   basic-prefix: 'Basic '
