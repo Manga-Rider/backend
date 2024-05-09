@@ -40,10 +40,13 @@ public class SecurityConfig {
                 .authenticationProvider(provider)
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(config -> {
+                    config.requestMatchers("/swagger-ui/**").permitAll(); // for open api
+                    config.requestMatchers("/swagger-ui.html").permitAll();
+                    config.requestMatchers("/v3/api-docs/**").permitAll();
                     config.requestMatchers(POST, "/api/v1/users/registration").permitAll();
                     config.requestMatchers(POST, "/api/v1/users/login").permitAll();
                     config.requestMatchers("/api/v1/test/**").permitAll();
-                    config.anyRequest().permitAll();
+                    config.anyRequest().authenticated();
                 });
         return http.build();
     }

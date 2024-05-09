@@ -9,6 +9,7 @@
         <jjwt.version>0.12.5</jjwt.version>
         <javatuples.version>1.2</javatuples.version>
         <aws.sdk.version>1.12.715</aws.sdk.version>
+        <spring.doc.version>2.5.0</spring.doc.version>
     </properties>
 
     <parent>
@@ -24,6 +25,11 @@
     <description>MangaRider backend</description>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${spring.doc.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
