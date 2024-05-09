@@ -1,6 +1,8 @@
 package com.mangarider.controller;
 
 import com.mangarider.model.dto.MangaDTO;
+import com.mangarider.model.dto.request.CreateMangaRequest;
+import com.mangarider.model.entity.UserCredentials;
 import com.mangarider.service.MangaService;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -11,13 +13,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/manga")
+@RequestMapping("/api/v1/mangas")
 @RequiredArgsConstructor
 public class MangaController {
     private final MangaService service;
@@ -41,4 +41,12 @@ public class MangaController {
     ) {
         return service.getPage(PageRequest.of(num, size, Sort.Direction.fromString(order), properties));
     }
+
+//    @PostMapping
+//    public void create(
+//            @RequestBody CreateMangaRequest request,
+//            @AuthenticationPrincipal UserCredentials credentials
+//    ) {
+//        service.create(credentials, request);
+//    }
 }
