@@ -4,7 +4,9 @@ import com.mangarider.exception.UserNotFoundException;
 import com.mangarider.mapper.MangaMapper;
 import com.mangarider.model.dto.ImageDTO;
 import com.mangarider.model.dto.UserDTO;
+import com.mangarider.model.dto.request.UpdateUserRequest;
 import com.mangarider.model.entity.User;
+import com.mangarider.model.entity.UserCredentials;
 import com.mangarider.repository.ImageRepository;
 import com.mangarider.repository.UserCredentialsRepository;
 import com.mangarider.repository.UserRepository;
@@ -28,8 +30,9 @@ public class UserService {
     private final ImageService imageService;
     private final MangaMapper mapper;
 
-    public User getUser(UUID userId) {
+    public UserDTO getUser(UUID userId) {
         return userRepository.findById(userId)
+                .map(user -> mapper.toDTO(user, imageService.getUrl(user.getImage())))
                 .orElseThrow(() -> new UserNotFoundException("User with id = {%s} not found".formatted(userId)));
     }
 
@@ -43,5 +46,23 @@ public class UserService {
                 mapper.toDTO(user, imageService.getUrl(user.getImage())));
     }
 
+    @Transactional
+    public void update(UserCredentials credentials, UpdateUserRequest request) {
+        if (credentials == null || credentials.getUser() == null) {
+            return;
+        }
+        User user = credentials.getUser();
+        if (request.username() != null) {
+            user.setUsername(request.username());
+        }
+        if (request.birthday() != null) {
+            user.setBirthday(request.birthday());
+        }
+        if (request.location() != null) {
+            user.setLocation(request.location());
+        }
+
+        userRepository.save(user);
+    }
 
 }

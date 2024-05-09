@@ -33,7 +33,7 @@ public class MangaController {
             @Pattern(
                     regexp = "asc|desc",
                     flags = {Pattern.Flag.CASE_INSENSITIVE},
-                    message = "error.validation.sort.direction.message"
+                    message = "Direction can be only ASC or DESC"
             )
             String order,
             @RequestParam(value = "properties", defaultValue = "createdAt")

@@ -8,7 +8,7 @@ import java.time.LocalDate;
 @Builder
 public record UpdateUserRequest (
         String username,
-        @JsonFormat(pattern = "DD-MM-YYYY")
+        @JsonFormat(pattern = "dd-MM-yyyy")
         LocalDate birthday,
         String location
 ) {

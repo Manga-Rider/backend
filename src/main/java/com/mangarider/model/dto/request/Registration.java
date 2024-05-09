@@ -17,7 +17,7 @@ public record Registration(
         @Size(min = 8)
         @NotEmpty
         String password,
-        @JsonFormat(pattern = "DD-MM-YYYY")
+        @JsonFormat(pattern = "dd-MM-yyyy")
         LocalDate birthday,
         String location
 ) {

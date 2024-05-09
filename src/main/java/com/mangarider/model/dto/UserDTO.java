@@ -12,7 +12,7 @@ public record UserDTO(
         UUID userId,
         String username,
         String image,
-        @JsonFormat(pattern = "DD-MM-YYYY")
+        @JsonFormat(pattern = "dd-MM-yyyy")
         LocalDate birthday,
         String location,
         long views,
