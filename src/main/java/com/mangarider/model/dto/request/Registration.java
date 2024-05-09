@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 
-public record RegistrationDTO(
+public record Registration(
         @Email
         @NotEmpty
         String email,

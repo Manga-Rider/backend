@@ -43,6 +43,9 @@ public class UserController {
         return ResponseEntity.ok(imageService.setUserImage(user.getUser(), file));
     }
 
+//    @PutMapping()
+//    public UserDTO update(@AuthenticationPrincipal UserCredentials user, @RequestBody) {}
+
     @GetMapping()
     private ResponseEntity<Page<UserDTO>> getUsers(
             @RequestParam(value = "size", defaultValue = "20")
@@ -57,7 +60,8 @@ public class UserController {
             )
             String order,
             @RequestParam(value = "properties", defaultValue = "createdAt")
-            String[] properties) {
+            String[] properties
+    ) {
         return ResponseEntity.ok(
                 userService.getUsers(PageRequest.of(num, size, Sort.Direction.fromString(order), properties))
         );
