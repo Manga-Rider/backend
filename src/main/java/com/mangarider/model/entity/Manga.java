@@ -34,6 +34,10 @@ public class Manga {
 
     private LocalDateTime publishedAt;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "manga_cover_image_id", referencedColumnName = "image_id")
+    private Image cover;
+
     @CreatedDate
     private LocalDateTime createdAt;
 
@@ -60,6 +64,7 @@ public class Manga {
         PUBLISHED,
         DRAFT,
         ON_GOING,
+        FINISHED,
         REMOVED // by admin
     }
 }

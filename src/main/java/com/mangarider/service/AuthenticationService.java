@@ -2,7 +2,7 @@ package com.mangarider.service;
 
 import com.mangarider.exception.AuthenticationException;
 import com.mangarider.exception.UserAlreadyExistsException;
-import com.mangarider.model.dto.request.RegistrationDTO;
+import com.mangarider.model.dto.request.Registration;
 import com.mangarider.model.entity.User;
 import com.mangarider.model.entity.UserCredentials;
 import com.mangarider.model.entity.UserRole;
@@ -30,7 +30,7 @@ public class AuthenticationService {
 
 
     @Transactional
-    public Pair<User, UserCredentials> registration(@NotNull RegistrationDTO dto) {
+    public Pair<User, UserCredentials> registration(@NotNull Registration dto) {
         if (userRepository.existsByUsername(dto.username())) {
             throw new UserAlreadyExistsException("User with username = {%s} already exists".formatted(dto.username()));
         } else if (credentialsRepository.existsByEmail(dto.email())) {

@@ -1,13 +1,19 @@
 package com.mangarider.mapper;
 
+import com.mangarider.model.dto.MangaDTO;
 import com.mangarider.model.dto.UserDTO;
+import com.mangarider.model.entity.Manga;
 import com.mangarider.model.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.format.DateTimeFormatter;
+
 @Component
 @RequiredArgsConstructor
 public class MangaMapper {
+
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     public UserDTO toDTO(User user, String image) {
         if (user == null) {
@@ -24,4 +30,18 @@ public class MangaMapper {
                 .build();
     }
 
+    public MangaDTO toDTO(Manga manga, String image) {
+        if (manga == null) {
+            return null;
+        }
+
+        return MangaDTO.builder()
+                .mangaId(manga.getMangaId())
+                .image(image)
+                .title(manga.getTitle())
+                .author(manga.getAuthor().getUserId())
+                .description(manga.getDescription())
+                .status(manga.getStatus())
+                .build();
+    }
 }

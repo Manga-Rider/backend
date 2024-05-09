@@ -1,6 +1,8 @@
 package com.mangarider.controller;
 
+import com.mangarider.mapper.MangaMapper;
 import com.mangarider.model.dto.UserDTO;
+import com.mangarider.model.dto.request.UpdateUserRequest;
 import com.mangarider.model.entity.UserCredentials;
 import com.mangarider.service.ImageService;
 import com.mangarider.service.UserService;
@@ -34,15 +36,6 @@ public class UserController {
         return ResponseEntity.of(userService.findUser(userId));
     }
 
-    @PostMapping(path = "/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> addImage(@AuthenticationPrincipal UserCredentials user,
-                                      @RequestParam("file") MultipartFile file) {
-        if (user == null) {
-            return ResponseEntity.status(UNAUTHORIZED).build();
-        }
-        return ResponseEntity.ok(imageService.setUserImage(user.getUser(), file));
-    }
-
     @GetMapping()
     private ResponseEntity<Page<UserDTO>> getUsers(
             @RequestParam(value = "size", defaultValue = "20")
@@ -57,9 +50,31 @@ public class UserController {
             )
             String order,
             @RequestParam(value = "properties", defaultValue = "createdAt")
-            String[] properties) {
+            String[] properties
+    ) {
         return ResponseEntity.ok(
                 userService.getUsers(PageRequest.of(num, size, Sort.Direction.fromString(order), properties))
         );
+    }
+
+    @GetMapping("/personal/account")
+    public UserDTO getPersonalAccount(@AuthenticationPrincipal UserCredentials user) {
+        return userService.getUser(user.getUserId());
+    }
+
+    @PutMapping("/personal/account")
+    public void update(@AuthenticationPrincipal UserCredentials credentials,
+                       @RequestBody UpdateUserRequest request
+    ) {
+        userService.update(credentials, request);
+    }
+
+    @PostMapping(path = "/personal/account/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> addImage(@AuthenticationPrincipal UserCredentials user,
+                                      @RequestParam("file") MultipartFile file) {
+        if (user == null) {
+            return ResponseEntity.status(UNAUTHORIZED).build();
+        }
+        return ResponseEntity.ok(imageService.setUserImage(user.getUser(), file));
     }
 }

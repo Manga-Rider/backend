@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 
-public record RegistrationDTO(
+public record Registration(
         @Email
         @NotEmpty
         String email,
@@ -17,7 +17,7 @@ public record RegistrationDTO(
         @Size(min = 8)
         @NotEmpty
         String password,
-        @JsonFormat(pattern = "DD-MM-YYYY")
+        @JsonFormat(pattern = "dd-MM-yyyy")
         LocalDate birthday,
         String location
 ) {
