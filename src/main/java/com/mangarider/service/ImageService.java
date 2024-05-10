@@ -83,6 +83,13 @@ public class ImageService {
         return Pair.with(manga, result);
     }
 
+    public List<String> getUrls(List<Image> images) {
+        if (images == null || images.isEmpty()) {
+            return List.of();
+        }
+        return images.stream().map(image -> service.getPublicUrl(image.getS3Key())).toList();
+    }
+
     public String getUrl(Image image) {
         if (image == null) {
             return null;

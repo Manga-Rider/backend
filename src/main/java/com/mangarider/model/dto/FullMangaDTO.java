@@ -2,12 +2,14 @@ package com.mangarider.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mangarider.model.entity.Manga;
+import lombok.Builder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@Builder
 public record FullMangaDTO (
         UUID mangaId,
         UUID author,

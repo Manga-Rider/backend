@@ -65,6 +65,10 @@ public class Manga {
         DRAFT,
         ON_GOING,
         FINISHED,
-        REMOVED // by admin
+        REMOVED; // by admin
+
+        public boolean isPublic() {
+            return !this.equals(DRAFT) && !this.equals(REMOVED);
+        }
     }
 }

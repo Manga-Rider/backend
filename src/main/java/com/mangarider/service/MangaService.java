@@ -66,7 +66,14 @@ public class MangaService {
 
     @Transactional(readOnly = true)
     public FullMangaDTO getManga(UUID mangaId, UserCredentials credentials) {
-        return null;
+        Manga manga = getManga(mangaId);
+        if (isAuthor(manga, credentials)) {
+            return mapper.toFullDTO(manga, imageService.getUrl(manga.getCover()), imageService.getUrls(manga.getImages()));
+        }
+        if (!manga.getStatus().isPublic()) {
+            throw new ForbiddenAccessException(HttpStatus.FORBIDDEN, "Access denied");
+        }
+        return mapper.toFullDTO(manga, imageService.getUrl(manga.getCover()), imageService.getUrls(manga.getImages()));
     }
 
     @Transactional
@@ -97,6 +104,10 @@ public class MangaService {
                 }
             }
         }
+    }
+
+    private boolean isAuthor(Manga manga, UserCredentials credentials) {
+        return manga.getAuthor().getUserId().equals(credentials.getUserId());
     }
 
     private Manga getMangaAndCheckOwner(UUID mangaId, UserCredentials credentials) {
