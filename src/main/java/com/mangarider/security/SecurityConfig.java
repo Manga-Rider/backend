@@ -23,7 +23,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.crypto.SecretKey;
 
-import static com.mangarider.model.entity.UserRole.ADMIN;
 import static org.springframework.http.HttpMethod.POST;
 
 @Configuration

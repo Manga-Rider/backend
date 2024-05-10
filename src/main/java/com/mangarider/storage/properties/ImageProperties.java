@@ -1,7 +1,5 @@
 package com.mangarider.storage.properties;
 
-import jakarta.activation.MimeType;
-import org.apache.http.entity.ContentType;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.web.multipart.MultipartFile;
 

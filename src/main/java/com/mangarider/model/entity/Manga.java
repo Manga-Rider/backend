@@ -34,7 +34,7 @@ public class Manga {
 
     private LocalDateTime publishedAt;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "manga_cover_image_id", referencedColumnName = "image_id")
     private Image cover;
 
