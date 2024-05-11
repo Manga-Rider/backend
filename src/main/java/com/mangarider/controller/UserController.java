@@ -1,6 +1,5 @@
 package com.mangarider.controller;
 
-import com.mangarider.mapper.MangaMapper;
 import com.mangarider.model.dto.UserDTO;
 import com.mangarider.model.dto.request.UpdateUserRequest;
 import com.mangarider.model.entity.UserCredentials;
@@ -21,8 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
-
-import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -70,11 +67,8 @@ public class UserController {
     }
 
     @PostMapping(path = "/personal/account/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> addImage(@AuthenticationPrincipal UserCredentials user,
+    public void addImage(@AuthenticationPrincipal UserCredentials user,
                                       @RequestParam("file") MultipartFile file) {
-        if (user == null) {
-            return ResponseEntity.status(UNAUTHORIZED).build();
-        }
-        return ResponseEntity.ok(imageService.setUserImage(user.getUser(), file));
+        imageService.setUserImage(user.getUser(), file);
     }
 }

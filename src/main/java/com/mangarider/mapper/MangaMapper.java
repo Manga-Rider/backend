@@ -1,5 +1,6 @@
 package com.mangarider.mapper;
 
+import com.mangarider.model.dto.FullMangaDTO;
 import com.mangarider.model.dto.MangaDTO;
 import com.mangarider.model.dto.UserDTO;
 import com.mangarider.model.entity.Manga;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -41,6 +43,24 @@ public class MangaMapper {
                 .title(manga.getTitle())
                 .author(manga.getAuthor().getUserId())
                 .description(manga.getDescription())
+                .status(manga.getStatus())
+                .build();
+    }
+
+    public FullMangaDTO toFullDTO(Manga manga, String image, List<String> images) {
+        if (manga == null) {
+            return null;
+        }
+
+        return FullMangaDTO.builder()
+                .mangaId(manga.getMangaId())
+                .author(manga.getAuthor().getUserId())
+                .status(manga.getStatus())
+                .image(image)
+                .images(images)
+                .description(manga.getDescription())
+                .publishedAt(manga.getPublishedAt())
+                .createdAt(manga.getCreatedAt().toLocalDate())
                 .status(manga.getStatus())
                 .build();
     }
