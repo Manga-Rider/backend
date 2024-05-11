@@ -57,26 +57,26 @@ public class MangaController {
         return service.getManga(mangaId, credentials);
     }
 
-//    @GetMapping("/authors/{authorId}")
-//    public Page<MangaDTO> getPersonMangas(
-//            @PathVariable("authorId") UUID authorId,
-//            @RequestParam(value = "size", defaultValue = "20")
-//            @Min(1) @Max(1000) int size,
-//            @RequestParam(value = "num", defaultValue = "0")
-//            @PositiveOrZero int num,
-//            @RequestParam(value = "orderBy", defaultValue = "DESC")
-//            @Pattern(
-//                    regexp = "asc|desc",
-//                    flags = {Pattern.Flag.CASE_INSENSITIVE},
-//                    message = "Direction can be only ASC or DESC"
-//            )
-//            String order,
-//            @RequestParam(value = "properties", defaultValue = "createdAt")
-//            String[] properties,
-//            @AuthenticationPrincipal UserCredentials credentials
-//    ) {
-//        return service.getAuthorMangas(authorId, credentials, PageRequest.of(num, size, Sort.Direction.fromString(order), properties));
-//    }
+    @GetMapping("/authors/{authorId}")
+    public Page<MangaDTO> getPersonMangas(
+            @PathVariable("authorId") UUID authorId,
+            @RequestParam(value = "size", defaultValue = "20")
+            @Min(1) @Max(1000) int size,
+            @RequestParam(value = "num", defaultValue = "0")
+            @PositiveOrZero int num,
+            @RequestParam(value = "orderBy", defaultValue = "DESC")
+            @Pattern(
+                    regexp = "asc|desc",
+                    flags = {Pattern.Flag.CASE_INSENSITIVE},
+                    message = "Direction can be only ASC or DESC"
+            )
+            String order,
+            @RequestParam(value = "properties", defaultValue = "createdAt")
+            String[] properties,
+            @AuthenticationPrincipal UserCredentials credentials
+    ) {
+        return service.getAuthorMangas(authorId, credentials, PageRequest.of(num, size, Sort.Direction.fromString(order), properties));
+    }
 
     @PostMapping
     public MangaDTO create(

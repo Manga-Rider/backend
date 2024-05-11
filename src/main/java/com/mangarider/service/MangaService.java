@@ -39,6 +39,16 @@ public class MangaService {
                 .map(manga -> mapper.toDTO(manga, imageService.getUrl(manga.getCover())));
     }
 
+    @Transactional(readOnly = true)
+    public Page<MangaDTO> getAuthorMangas(UUID authorId, UserCredentials credentials, Pageable page) {
+        if (credentials.getUserId().equals(authorId)) {
+            return repository.findAllByAuthorId(authorId, page)
+                    .map(manga -> mapper.toDTO(manga, imageService.getUrl(manga.getCover())));
+        }
+        return repository.findByAuthorWhereStatusNot(authorId, List.of(DRAFT, REMOVED), page)
+                .map(manga -> mapper.toDTO(manga, imageService.getUrl(manga.getCover())));
+    }
+
     @Transactional
     public MangaDTO create(UserCredentials credentials, MangaRequest request) {
         User user = credentials.getUser();
