@@ -72,6 +72,7 @@ public class MangaMapper {
                 .mangaId(chapter.getChapterId())
                 .title(chapter.getTitle())
                 .pages(pages)
+                .status(chapter.getStatus())
                 .releaseDate(chapter.getReleaseDate())
                 .build();
     }

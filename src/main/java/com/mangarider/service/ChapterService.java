@@ -2,12 +2,14 @@ package com.mangarider.service;
 
 import com.mangarider.exception.ConflictException;
 import com.mangarider.exception.ForbiddenAccessException;
+import com.mangarider.exception.InvalidMangaException;
 import com.mangarider.exception.NotFoundException;
 import com.mangarider.mapper.MangaMapper;
 import com.mangarider.model.dto.ChapterDTO;
 import com.mangarider.model.dto.ChapterPageDTO;
 import com.mangarider.model.dto.FullChapterPageDTO;
 import com.mangarider.model.dto.request.ChapterCreationRequest;
+import com.mangarider.model.dto.request.ChapterEditRequest;
 import com.mangarider.model.entity.*;
 import com.mangarider.repository.ChapterPageRepository;
 import com.mangarider.repository.ChapterRepository;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -60,10 +63,38 @@ public class ChapterService {
     }
 
     @Transactional
-    public ChapterDTO create(UUID mangaId, UserCredentials credentials, ChapterCreationRequest request) {
+    public ChapterDTO createChapter(UUID mangaId, UserCredentials credentials, ChapterCreationRequest request) {
         Manga manga = getMangaCheckOwner(credentials, mangaId);
         Chapter chapter = createChapter(manga, request);
         return mapper.toDTO(chapter, 0);
+    }
+
+    @Transactional
+    public ChapterDTO editChapter(UserCredentials credentials, UUID mangaId, UUID chapterId, ChapterEditRequest request) {
+        Manga manga = getMangaCheckOwner(credentials, mangaId);
+        Chapter chapter = getChapter(chapterId);
+
+        if (request.title() != null) {
+            manga.setTitle(request.title());
+        }
+        if (request.status() != null) {
+            switch (request.status()) {
+                case PUBLISHED -> {
+                    if (chapter.getTitle() == null) {
+                        throw new InvalidMangaException("Not full data provided");
+                    }
+
+                    chapter.setStatus(request.status());
+                    if (chapter.getReleaseDate() == null) {
+                        chapter.setReleaseDate(LocalDate.now());
+                    }
+                }
+                case DRAFT -> chapter.setStatus(request.status());
+                case REMOVED -> throw new ForbiddenAccessException("Access denied");
+            }
+        }
+
+        return mapper.toDTO(chapter,  pageRepository.countByChapterId(chapter.getChapterId()));
     }
 
     @Transactional

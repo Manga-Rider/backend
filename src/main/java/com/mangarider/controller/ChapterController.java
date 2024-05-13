@@ -4,6 +4,7 @@ import com.mangarider.model.dto.ChapterDTO;
 import com.mangarider.model.dto.ChapterPageDTO;
 import com.mangarider.model.dto.FullChapterPageDTO;
 import com.mangarider.model.dto.request.ChapterCreationRequest;
+import com.mangarider.model.dto.request.ChapterEditRequest;
 import com.mangarider.model.entity.UserCredentials;
 import com.mangarider.service.ChapterService;
 import jakarta.validation.Valid;
@@ -60,7 +61,17 @@ public class ChapterController {
             @AuthenticationPrincipal UserCredentials credentials,
             @Valid @RequestBody ChapterCreationRequest chapter
     ) {
-        return service.create(mangaId, credentials, chapter);
+        return service.createChapter(mangaId, credentials, chapter);
+    }
+
+    @PutMapping("/{mangaId}/chapters/{chapterId}")
+    public ChapterDTO editChapter(
+            @AuthenticationPrincipal UserCredentials credentials,
+            @PathVariable("mangaId") UUID mangaId,
+            @PathVariable("chapterId") UUID chapterId,
+            @Valid @RequestBody ChapterEditRequest request
+    ) {
+        return service.editChapter(credentials, mangaId, chapterId, request);
     }
 
     @DeleteMapping("/{mangaId}/chapters/{chapterId}")

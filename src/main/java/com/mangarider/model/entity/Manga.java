@@ -43,7 +43,7 @@ public class Manga {
 
     @Enumerated(EnumType.ORDINAL)
     @Builder.Default
-    public Status status = Status.DRAFT;
+    private Status status = Status.DRAFT;
 
     @Builder.Default
     private long views = 0L;
