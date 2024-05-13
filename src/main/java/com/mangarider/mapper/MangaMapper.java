@@ -1,21 +1,18 @@
 package com.mangarider.mapper;
 
-import com.mangarider.model.dto.FullMangaDTO;
-import com.mangarider.model.dto.MangaDTO;
-import com.mangarider.model.dto.UserDTO;
+import com.mangarider.model.dto.*;
+import com.mangarider.model.entity.Chapter;
+import com.mangarider.model.entity.ChapterPage;
 import com.mangarider.model.entity.Manga;
 import com.mangarider.model.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class MangaMapper {
-
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     public UserDTO toDTO(User user, String image) {
         if (user == null) {
@@ -56,12 +53,49 @@ public class MangaMapper {
                 .mangaId(manga.getMangaId())
                 .author(manga.getAuthor().getUserId())
                 .status(manga.getStatus())
+                .title(manga.getTitle())
                 .image(image)
                 .images(images)
                 .description(manga.getDescription())
                 .publishedAt(manga.getPublishedAt())
                 .createdAt(manga.getCreatedAt().toLocalDate())
                 .status(manga.getStatus())
+                .build();
+    }
+
+    public ChapterDTO toDTO(Chapter chapter, long pages) {
+        if (chapter == null) {
+            return null;
+        }
+
+        return ChapterDTO.builder()
+                .mangaId(chapter.getChapterId())
+                .title(chapter.getTitle())
+                .pages(pages)
+                .releaseDate(chapter.getReleaseDate())
+                .build();
+    }
+
+    public ChapterPageDTO toDTO(ChapterPage page) {
+        if (page == null) {
+            return null;
+        }
+
+        return ChapterPageDTO.builder()
+                .pageId(page.getPageId())
+                .pageNumber(page.getPageNumber())
+                .build();
+    }
+
+    public FullChapterPageDTO toFullDTO(ChapterPage page, String image) {
+        if (page == null) {
+            return null;
+        }
+
+        return FullChapterPageDTO.builder()
+                .pageId(page.getPageId())
+                .pageNumber(page.getPageNumber())
+                .image(image)
                 .build();
     }
 }

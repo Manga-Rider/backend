@@ -1,7 +1,8 @@
-package com.mangarider.security;
+package com.mangarider.config;
 
 import com.mangarider.exception.GlobalServiceException;
 import com.mangarider.repository.UserCredentialsRepository;
+import com.mangarider.security.JwtAuthenticationFilter;
 import com.mangarider.security.properties.SecurityProperties;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

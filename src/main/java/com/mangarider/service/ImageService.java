@@ -71,9 +71,7 @@ public class ImageService {
         for (var file : files) {
             validateFile(file);
             String key = generateS3Key(userId, manga.getMangaId(), file.getOriginalFilename());
-            Image image = Image.builder()
-                    .s3Key(key)
-                    .build();
+            Image image = createImage(key);
             manga.addImage(image);
             result.add(image);
             upload(key, file);
@@ -82,6 +80,25 @@ public class ImageService {
 
         return Pair.with(manga, result);
     }
+
+    @Transactional
+    public Image create(UUID userId, UUID mangaId, MultipartFile file) {
+        validateFile(file);
+        String s3key = generateS3Key(userId, mangaId, file.getOriginalFilename());
+        Image image = createAndSaveImage(s3key);
+        upload(s3key, file);
+        return image;
+    }
+
+    public void delete(Image image) {
+        if (image == null) {
+            return;
+        }
+
+        service.deleteFile(image.getS3Key());
+    }
+
+
 
     public List<String> getUrls(List<Image> images) {
         if (images == null || images.isEmpty()) {
@@ -125,8 +142,14 @@ public class ImageService {
     }
 
     private Image createAndSaveImage(String key) {
-        Image image = Image.builder().s3Key(key).build();
+        Image image = createImage(key);
         return imageRepository.save(image);
+    }
+
+    private Image createImage(String s3key) {
+        return Image.builder()
+                .s3Key(s3key)
+                .build();
     }
 
     private boolean isValidFileName(String name) {

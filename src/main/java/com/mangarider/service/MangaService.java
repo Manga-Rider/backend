@@ -86,6 +86,19 @@ public class MangaService {
         return mapper.toFullDTO(manga, imageService.getUrl(manga.getCover()), imageService.getUrls(manga.getImages()));
     }
 
+    @Transactional(readOnly = true)
+    public Manga getPublicManga(UUID mangaId, UserCredentials credentials) {
+        Manga manga = getManga(mangaId);
+        if (isAuthor(manga, credentials)) {
+            return manga;
+        }
+        if (!manga.getStatus().isPublic()) {
+            throw new ForbiddenAccessException(HttpStatus.FORBIDDEN, "Access denied");
+        }
+        return manga;
+    }
+
+
     @Transactional
     public void edit(UserCredentials credentials, UUID mangaId, MangaRequest request, Manga.Status status) {
         Manga manga = getMangaAndCheckOwner(mangaId, credentials);
@@ -116,10 +129,6 @@ public class MangaService {
         }
     }
 
-    private boolean isAuthor(Manga manga, UserCredentials credentials) {
-        return manga.getAuthor().getUserId().equals(credentials.getUserId());
-    }
-
     private Manga getMangaAndCheckOwner(UUID mangaId, UserCredentials credentials) {
         Manga manga = getManga(mangaId);
         if (!manga.getAuthor().getUserId().equals(credentials.getUserId())) {
@@ -128,8 +137,12 @@ public class MangaService {
         return manga;
     }
 
-    private Manga getManga(UUID mangaId) {
+    public Manga getManga(UUID mangaId) {
         return repository.findById(mangaId)
                 .orElseThrow(() -> new UserNotFoundException("Manga with id = {%s} not found".formatted(mangaId)));
+    }
+
+    public boolean isAuthor(Manga manga, UserCredentials credentials) {
+        return manga.getAuthor().getUserId().equals(credentials.getUserId());
     }
 }
