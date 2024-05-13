@@ -1,4 +1,4 @@
-package com.mangarider.storage.config;
+package com.mangarider.config;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;

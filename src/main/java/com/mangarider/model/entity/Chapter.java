@@ -21,24 +21,25 @@ import java.util.UUID;
 public class Chapter {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    public UUID chapterId;
+    @Column(name = "chapter_id")
+    private UUID chapterId;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "manga_id", nullable = false)
-    public Manga manga;
+    private Manga manga;
 
-    public String title;
-
-    @Builder.Default
-    public long views = 0L;
+    private String title;
 
     @Builder.Default
-    public Status status = Status.DRAFT;
+    private long views = 0L;
 
-    public LocalDate releaseDate;
+    @Builder.Default
+    private Status status = Status.DRAFT;
+
+    private LocalDate releaseDate;
 
     @CreatedDate
-    public LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
     public enum Status {
         PUBLISHED,
