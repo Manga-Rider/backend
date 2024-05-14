@@ -1,0 +1,36 @@
+server:
+  port: ${APPLICATION_PORT:8080}
+spring:
+  application:
+    name: MangaRiderBackend
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+security:
+  basic-prefix: 'Basic '
+  jwt-prefix: 'Bearer '
+  role-key: 'role'
+  issuer: 'manga-reader'
+  secret-key: '722236765770276c3c21344b6a455f3662447d3b4b7b3e2c2b707d7e3e'
+  token-live-time: 1800000
+
+aws:
+  access:
+    key: TEST_KEY
+  secret:
+    key: TEST_KEY
+  s3:
+    bucket: TEST_KEY
+    region: TEST_KEY
+
+image:
+  supported-mime-types:
+    - "image/gif"
+    - "image/png"
+    - "image/jpeg"
+  user-folder: 'USER/%s/PROFILE/%s'
+  #                 userId      file
+  manga-folder: 'USER/%s/MANGA/%s/%s'
+  #                 userId   mangaID file
+  regex: ([0-9]|[A-Z]|[a-z]|[!\-_.*'\(\)])+
