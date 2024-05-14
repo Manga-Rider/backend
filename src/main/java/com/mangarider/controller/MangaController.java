@@ -29,7 +29,7 @@ import java.util.UUID;
 @Validated
 public class MangaController {
     private final MangaService service;
-
+ // TEST COMMIT
     @GetMapping
     public Page<MangaDTO> getMangas(
             @RequestParam(value = "size", defaultValue = "20")
